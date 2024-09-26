@@ -1,0 +1,21 @@
+nha hang 
+{
+    "name": String,
+    "email": String,
+    "image": String,
+    "index": {
+        "vi_do": String,
+        "kinh_do": String
+    },
+    "address": String,
+    "time": String,
+}
+
+nguoi dung
+{
+    "name": String,
+    "email": String,
+    "password": String,
+    "role": String,
+}
+

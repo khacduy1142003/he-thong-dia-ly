@@ -1,0 +1,175 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
+
+    .uk-navbar-container {
+        position: relative;
+        z-index: 10;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+
+
+<nav class="uk-navbar-container uk-padding-small " style="background-color: transparent;">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+
+                <div class="uk-margin" style="margin-top: 18px;">
+                    <form method="post" action="/" class="uk-search uk-search-default uk-width-medium">
+                        <input style="background-color: hsl(0, 0%, 0%); color: ffffff;"
+                            class="uk-width-1-1 uk-search-input" name="travel" type="search" placeholder="Tìm kiếm trên Chan La Ca"
+                            aria-label="Search">
+                        <button class="uk-search-icon-flip" uk-search-icon></button>
+                    </form>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/nha-hang">Nhà hàng</a>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/khach-san">Khách Sạn</a>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/diem-tham-quan">Điểm Thăm Quan</a>
+                </div>
+               
+                <div class="uk-margin ">
+                    {{#if nguoi_dung}}
+                        <a class="uk-button uk-button-secondary" href="/profile">{{nguoi_dung.username}}</a>
+                        <a class="uk-button uk-button-secondary" href="/dang-nhap">Đăng Xuat</a>
+                    {{else}}
+                        <a class="uk-button uk-button-secondary" href="/dang-nhap">Đăng Nhập</a>
+                    {{/if}}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+<div id="map" class="uk-height-viewport"></div>
+
+
+
+<script>
+   (function () {
+    window.onload = function () {
+        // Tạo bản đồ
+        var options = {
+            zoom: 5,
+            center: new google.maps.LatLng(14.470, 108.1042),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Mảng để lưu trữ các điểm đánh dấu
+        var markers = [];
+
+        // Hàm tạo và thêm điểm đánh dấu
+        function addMarker(data) {
+            var position = new google.maps.LatLng(data.vido, data.kinhdo);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: data.name
+            });
+
+            // Thêm sự kiện khi click vào marker
+            marker.addListener('click', function () {
+                // Tạo cửa sổ thông tin hoặc xử lý sự kiện click
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `
+                    
+                    <a class="uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+
+                    <div id="modal-full-${data._id}" class="uk-modal-full" uk-modal>
+                        <div class="uk-modal-dialog">
+                            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+                            <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                                <div class="uk-background-cover" style="background-image: url('images/${data.image}');" uk-height-viewport></div>
+                                <div class="uk-padding-large">
+                                    <h1>${data.name}</h1> <hr>
+                                    <p>${data.about}.</p>
+                               
+                                <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" 
+                                type="button"
+                                uk-toggle="target: #modal_delete_${data._id}">
+                                    Xoá 
+                                </button>
+
+                                <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" 
+                                type="button"
+                                uk-toggle="target: #modal_update_${data._id}">
+                                    Cập Nhật
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    `
+                });
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        }
+
+        // Hàm tải và hiển thị các điểm đánh dấu từ API
+        function loadMarkersFromAPI() {
+            fetch('http://localhost:3001/json-nha-hang')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        var markerData = {
+                            _id: item._id,
+                            name: item.name,
+                            address: item.address,
+                            about: item.about,
+                            image: item.image,
+                            vido: parseFloat(item.index.vido),
+                            kinhdo: parseFloat(item.index.kinhdo)
+                        };
+
+                        // Tạo và thêm điểm đánh dấu
+                        addMarker(markerData);
+                    });
+                })
+                .catch(error => console.error('Lấy cơ sở dữ liệu thất bại:', error));
+        }
+
+        // Tải và hiển thị các điểm đánh dấu từ API khi trang tải
+        loadMarkersFromAPI();
+
+        // Mở thanh bên khi click vào bản đồ
+        google.maps.event.addListener(map, 'click', function (event) {
+            var clickedLocation = event.latLng;
+            var latitude = clickedLocation.lat();
+            var longitude = clickedLocation.lng();
+
+            document.getElementById('vido-view').value = latitude;
+            document.getElementById('kinhdo-view').value = longitude;
+
+            var modal = UIkit.modal('#modal-add-index');
+            modal.show();
+        });
+    };
+})();
+
+</script>

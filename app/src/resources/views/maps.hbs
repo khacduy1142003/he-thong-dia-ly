@@ -1,0 +1,79 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
+
+    .uk-navbar-container {
+        position: relative;
+        z-index: 10;
+        /* Đảm bảo navbar nằm trên bản đồ */
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+
+
+<nav class="uk-navbar-container uk-padding-small " style="background-color: transparent;">
+    <div class="uk-container">
+        <div uk-navbar>
+
+            <div class="uk-navbar-left">
+
+                <div class="uk-margin" style="margin-top: 18px;">
+                    <form method="post" action="/maps" class="uk-search uk-search-default uk-width-medium" >
+                        <input style="background-color: hsl(0, 0%, 0%); color: ffffff;" class="uk-width-1-1 uk-search-input" type="search" placeholder="Tìm kiếm trên Chan La Ca" aria-label="Search">
+                        <button class="uk-search-icon-flip" uk-search-icon></button>
+                    </form>
+                </div>
+                <div class="uk-margin ">
+                     <a class="uk-button uk-button-secondary" href="/maps/nha-hang">Nhà hàng</a>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/maps/khach-san">Khách Sạn</a>
+                </div>
+                 <div class="uk-margin ">
+                     <a class="uk-button uk-button-secondary" href="/maps/diem-tham-quan">Điểm Thăm Quan</a>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/maps/bao-tang">Bảo Tàng</a>
+                </div>
+                 <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" href="/maps/phuong-tien">{{data.name}}</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+<div id="map" class="uk-height-viewport"></div>
+
+
+
+<script>
+    (function () {
+        window.onload = function () {
+            // Tạo bản đồ
+            var options = {
+                zoom: 5,
+                center: new google.maps.LatLng(14.470, 108.1042),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+        };
+    })();
+
+</script>

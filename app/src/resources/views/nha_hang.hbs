@@ -1,0 +1,283 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<style>
+    .nhahang {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 500px;
+        bottom: 0;
+        overflow: auto;
+        z-index: 9;
+        background-color: #ffffff;
+    }
+
+
+    html,
+    body {
+        overflow: hidden;
+    }
+
+
+    .uk-navbar-container {
+        position: relative;
+        z-index: 10;
+
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .item-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+    }
+
+    .item-info {
+        flex: 1;
+        padding-right: 10px;
+    }
+
+    .item-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+    
+    
+</style>
+
+<nav class="uk-navbar-container uk-padding-small " style="background-color: transparent; ">
+    <div class="uk-container ">
+        <div uk-navbar>
+            <div class="uk-navbar-left">
+                <div class="uk-margin" style="margin-top: 18px; margin-right: 100px;">
+                    <form method="post" action="/maps" class="uk-search uk-search-default uk-width-medium">
+                        <input disabled style="border: transparent;"  class="uk-width-1-1 uk-search-input" type="search" 
+                            aria-label="Search">
+                    </form>
+                </div>
+                <div class="uk-margin ">
+                    <button style="z-index: 11; background-color: #222; color: ffffff;" class="uk-button uk-button-default" type="button" uk-toggle="target: #toggle-animation-multiple-nha-hang; animation:  uk-animation-slide-left, uk-animation-slide-bottom">Nhà hàng</button>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" style="" href="/maps/khach-san">Khách Sạn</a>
+                </div>
+                <div class="uk-margin ">
+                   <button class="uk-button uk-button-default" style="background-color: #222; color: ffffff;" type="button" >Điểm thăm quan</button>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-primary" href="/nguoi-dung/{{nguoi_dung._id}}">{{nguoi_dung.username}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div style="z-index: 10;" id="toggle-animation-multiple-nha-hang" class="uk-card  uk-card-body uk-margin-small">
+   
+    <div class="nhahang uk-padding">
+        <h2 class="uk-heading-line uk-text-center"><span>Nhà hàng</span></h2>
+
+        <div uk-filter="target: .js-filter">
+
+            <div class="uk-grid-small uk-grid-divider uk-child-width-auto" uk-grid>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li class="uk-active" uk-filter-control><a href="#">Tất cả</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li uk-filter-control="filter: [data-color='NHA_HANG']; group: data-color"><a href="#">Nhà hàng </a></li>
+                        <li uk-filter-control="filter: [data-color='KHACH_SAN']; group: data-color"><a href="#">Khách sản</a></li>
+                        <li uk-filter-control="filter: [data-color='DIEM_THAM_QUAN']; group: data-color"><a href="#">Điểm thăm quan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li uk-filter-control="filter: [data-size='MOI_LUC']; group: size"><a href="#">Mọi lúc </a></li>
+                        <li uk-filter-control="filter: [data-size='MO_CA_NGAY']; group: size"><a href="#">Mở cả ngày</a></li>
+                        <li uk-filter-control="filter: [data-size='HIEN_DANG_MO']; group: size"><a href="#">Hiện đang mở</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <ul style="
+                display: block; 
+         
+                    
+                " class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center uk-list uk-list-striped"
+                uk-grid="masonry: true">
+                {{!-- start --}}
+                
+                {{#each nha_hang}}
+                <li style="width: 100%;"  data-color="{{this.travel}}" data-size="{{this.time}}">
+                <img src="http://localhost:3001/images/{{this.image}}" alt="">
+                <div class="" >
+                        <div class="item-info">
+                            <h1>
+                                <span class="uk-text-success">
+                                    {{this.name}}
+                                </span>
+                            </h1>
+                            <p>{{this.address}}</p>
+                            <!-- detail -->
+                            <button class="uk-width-1-1 uk-button uk-button-default uk-margin-small-right" type="button"
+                                uk-toggle="target: #modal_nha_hang_{{this._id}}">
+                                Xem Chi Tiết
+                            </button>
+                        </div>
+                    </div>
+                    <div id="modal_nha_hang_{{this._id}}" style="z-index: 1000; "  uk-offcanvas="flip: true; overlay: true">
+                        <div class="uk-offcanvas-bar">
+
+                            <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+                            <h3>{{this.tennhahang}}</h3>
+                            <img style="height:210px;" src="http://localhost:3001/images/{{this.image}}" alt="">
+                            <ul uk-tab>
+                                <li><a href="#" style="padding: 0;">Tổng Quan</a></li>
+                                <li><a href="#" style="padding: 0;">Đánh Giá </a></li>
+                                <li><a href="#" style="padding: 0;"> Giới Thiệu</a></li>
+                            </ul>
+
+                            <div class="uk-switcher uk-margin">
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt
+                                    ut
+                                    labore et dolore magna aliqua.</div>
+                                <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                                    ea
+                                    commodo consequat.</div>
+                                <div>{{this.about}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--  detail -->
+                </li>
+                {{/each }}
+                {{!-- end --}}
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div id="map" class="uk-height-viewport"></div>
+
+<script>
+   (function () {
+    window.onload = function () {
+        // Tạo bản đồ
+        var options = {
+            zoom: 5,
+            center: new google.maps.LatLng(14.470, 108.1042),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Mảng để lưu trữ các điểm đánh dấu
+        var markers = [];
+
+        // Hàm tạo và thêm điểm đánh dấu
+        function addMarker(data) {
+            var position = new google.maps.LatLng(data.vido, data.kinhdo);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: data.name
+            });
+
+            // Thêm sự kiện khi click vào marker
+            marker.addListener('click', function () {
+                // Tạo cửa sổ thông tin hoặc xử lý sự kiện click
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `
+                    
+                    <a class="uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+
+                    <div id="modal-full-${data._id}" class="uk-modal-full" uk-modal>
+                        <div class="uk-modal-dialog">
+                            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+                            <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                                <div class="uk-background-cover" style="background-image: url('images/${data.image}');" uk-height-viewport></div>
+                                <div class="uk-padding-large">
+                                    <h1>${data.name}</h1> <hr>
+                                    <p>${data.about}.</p>
+                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    `
+                });
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        }
+
+        // Hàm tải và hiển thị các điểm đánh dấu từ API
+        function loadMarkersFromAPI() {
+            fetch('http://localhost:3001/json-nha-hang')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        var markerData = {
+                            _id: item._id,
+                            name: item.name,
+                            address: item.address,
+                            about: item.about,
+                            image: item.image,
+                            vido: parseFloat(item.index.vido),
+                            kinhdo: parseFloat(item.index.kinhdo)
+                        };
+
+                        // Tạo và thêm điểm đánh dấu
+                        addMarker(markerData);
+                    });
+                })
+                .catch(error => console.error('Lấy cơ sở dữ liệu thất bại:', error));
+        }
+
+        // Tải và hiển thị các điểm đánh dấu từ API khi trang tải
+        loadMarkersFromAPI();
+
+        // Mở thanh bên khi click vào bản đồ
+        google.maps.event.addListener(map, 'click', function (event) {
+            var clickedLocation = event.latLng;
+            var latitude = clickedLocation.lat();
+            var longitude = clickedLocation.lng();
+
+            document.getElementById('vido-view').value = latitude;
+            document.getElementById('kinhdo-view').value = longitude;
+
+            var modal = UIkit.modal('#modal-add-index');
+            modal.show();
+        });
+    };
+})();
+
+document.addEventListener("DOMContentLoaded", function() {
+    var ulElement = document.querySelector('ul.js-filter');
+
+    if (ulElement) {
+        ulElement.style.overflow = '';  // Xóa bỏ thuộc tính overflow
+        ulElement.style.height = '';    // Xóa bỏ thuộc tính height
+    }
+});
+
+</script>

@@ -1,0 +1,74 @@
+<link rel="stylesheet" type="text/css" href="../register/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="../register/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="../register/css/component.css" />
+<link rel="stylesheet" type="text/css" href="../register/css/cs-select.css" />
+<link rel="stylesheet" type="text/css" href="../register/css/cs-skin-boxes.css" />
+<script src="../register/js/modernizr.custom.js"></script>
+
+<div class="container">
+    <div class="fs-form-wrap" id="fs-form-wrap">
+        <div class="fs-title">
+            <h1> Đăng Ký Tài Khoản </h1>
+            <div class="codrops-top">
+                <a class="codrops-icon codrops-icon-prev" href="/"><span> Đăng nhập </span></a>
+                <a class="codrops-icon codrops-icon-drop" href="#q1"><span> Bắt đầu với tạo tên </span></a>
+                <a class="codrops-icon codrops-icon-info" href="#"><span> Hướng dẫn đăng ký </span></a>
+            </div>
+        </div>
+        <form method="post" action="/dang-ky" id="myform" class="fs-form fs-form-full" >
+            <ol class="fs-fields">
+
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="username" data-info=""> Chúng tôi có thể cưng hô bạn như thế nào?</label>
+                    <input class="fs-anim-lower" id="q1" name="username" type="username" placeholder="Tên nguời dùng" required/>
+                </li>
+
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="email" data-info=""> Địa chỉ email của bạn là gì?</label>
+                    <input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="duy@gmail.com" required/>
+                </li>
+               
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="email" data-info=""> Địa chỉ của bạn là gì?</label>
+                     <select name="address" class="fs-anim-lower" type="address" id="q3">
+                       {{#each xa_kien_giang}}
+                        <option>{{this.path_with_type}}</option>
+                       {{/each}}
+                    </select>
+                </li>
+
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="password" data-info="Vui lòng tạo mật khẩu đủ mạnh để đủ bảo mật cho bạn"> Mật khẩu của bạn là? </label>
+                    <input class="fs-anim-lower" id="q4" name="password" type="password" placeholder="Nhập mật khẩu " required/>
+                </li>
+
+            </ol>
+            <button class="fs-submit" type="submit"> Đăng Ký </button>
+        </form>
+    </div>
+</div>
+<script src="../register/js/classie.js"></script>
+<script src="../register/js/selectFx.js"></script>
+<script src="../register/js/fullscreenForm.js"></script>
+<script>
+    (function() {
+        var formWrap = document.getElementById( 'fs-form-wrap' );
+
+        [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+            new SelectFx( el, {
+                stickyPlaceholder: false,
+                onChange: function(val){
+                    document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                }
+            });
+        } );
+
+        new FForm( formWrap, {
+            onReview : function() {
+                classie.add( document.body, 'overview' ); 
+            }
+        } );
+    })();
+    
+
+</script>

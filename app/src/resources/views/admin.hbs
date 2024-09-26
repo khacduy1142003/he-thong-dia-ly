@@ -1,0 +1,633 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<style>
+    .nhahang {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 500px;
+        bottom: 0;
+        overflow: auto;
+        z-index: 9;
+        background-color: #ffffff;
+    }
+
+
+    html,
+    body {
+        overflow: hidden;
+    }
+
+
+    .uk-navbar-container {
+        position: relative;
+        z-index: 10;
+
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .item-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+    }
+
+    .item-info {
+        flex: 1;
+        padding-right: 10px;
+    }
+
+    .item-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+    
+    
+</style>
+
+<nav class="uk-navbar-container uk-padding-small " style="background-color: transparent; ">
+    <div class="uk-container ">
+        <div uk-navbar>
+            <div class="uk-navbar-left">
+                <div class="uk-margin" style="margin-top: 18px; margin-right: 100px;">
+                    <form method="post" action="/maps" class="uk-search uk-search-default uk-width-medium">
+                        <input  style="
+                            background-color: transparent; 
+                            color: ffffff;
+                            border: none;
+                            " class="uk-width-1-1 uk-search-input" type="search" 
+                            aria-label="Search">
+                    </form>
+                </div>
+                <div class="uk-margin ">
+                    <button style="z-index: 11; background-color: #222; color: ffffff;" class="uk-button uk-button-default" type="button" uk-toggle="target: #toggle-animation-multiple-nha-hang; animation:  uk-animation-slide-left, uk-animation-slide-bottom">Nhà hàng</button>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-secondary" style="" href="/maps/khach-san">Khách Sạn</a>
+                </div>
+                <div class="uk-margin ">
+                   <button class="uk-button uk-button-default" style="background-color: #222; color: ffffff;" type="button" uk-toggle="target: #offcanvas-flip-nguoi-dung">Ngưòi Dùng</button>
+                </div>
+                <div class="uk-margin ">
+                    <a class="uk-button uk-button-primary" href="/nguoi-dung/{{nguoi_dung._id}}">{{nguoi_dung.username}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div style="z-index: 10;" id="toggle-animation-multiple-nha-hang" class="uk-card  uk-card-body uk-margin-small">
+   
+    <div class="nhahang uk-padding">
+        <h2 class="uk-heading-line uk-text-center"><span><br></span></h2>
+
+        <div uk-filter="target: .js-filter">
+
+            <div class="uk-grid-small uk-grid-divider uk-child-width-auto" uk-grid>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li class="uk-active" uk-filter-control><a href="#">Tất cả</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li uk-filter-control="filter: [data-color='NHA_HANG']; group: data-color"><a href="#">Nhà hàng </a></li>
+                        <li uk-filter-control="filter: [data-color='KHACH_SAN']; group: data-color"><a href="#">Khách sản</a></li>
+                        <li uk-filter-control="filter: [data-color='DIEM_THAM_QUAN']; group: data-color"><a href="#">Điểm thăm quan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                        <li uk-filter-control="filter: [data-size='MOI_LUC']; group: size"><a href="#">Mọi lúc </a></li>
+                        <li uk-filter-control="filter: [data-size='MO_CA_NGAY']; group: size"><a href="#">Mở cả ngày</a></li>
+                        <li uk-filter-control="filter: [data-size='HIEN_DANG_MO']; group: size"><a href="#">Hiện đang mở</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <ul style="
+                display: block; 
+                overflow: auto;
+                    
+                " class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center uk-list uk-list-striped"
+                uk-grid="masonry: true">
+                {{!-- start --}}
+                
+                {{#each nha_hang}}
+                <li style="width: 100%;"  data-color="{{this.travel}}" data-size="{{this.time}}">
+                <img src="http://localhost:3001/images/{{this.image}}" alt="">
+                <div class="" >
+                        <div class="item-info">
+                            <h1>
+                                <span class="uk-text-success">
+                                    {{this.name}}
+                                </span>
+                            </h1>
+                
+                            <p>{{this.address}}</p>
+                    
+                            <!-- delete -->
+                            <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" type="button"
+                                uk-toggle="target: #modal_delete_{{this._id}}">
+                                Xoá 
+                            </button>
+
+                            <div id="modal_delete_{{this._id}}" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <h2 class="uk-modal-title">Thông báo hệ thống</h2>
+                                    <p>Bạn có muốn xóa nhà hàng: {{this.name}} không? Hành động này sẽ vĩnh viễn xóa dữ liệu.</p>
+                                    <p class="uk-text-right">
+                                    <form method="POST" action="/nha-hang/{{this._id}}?_method=DELETE">
+                                            <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
+                                    </form>
+                                        <button class="uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                            type="button">Huỷ</button>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--  delete -->
+                            <!-- update -->
+                            <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" type="button"
+                                uk-toggle="target: #modal_update_{{this._id}}">
+                                Cập Nhật
+                            </button>
+
+                            <div id="modal_update_{{this._id}}" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <h2 class="uk-modal-title">Thông tin chi tiết nhà hàng!</h2>
+                                    <p class="uk-text-right">
+                                        <form method="POST" action="/nha-hang/{{this._id}}?_method=PUT">
+                                        <fieldset class="uk-fieldset">
+                                            
+                                                <div class="uk-margin">
+                                                    <input class="uk-input" name="name" type="text" placeholder="Nhập tên nhà hàng"
+                                                        aria-label="Input" value="{{this.name}}">
+                                                </div>
+
+                                                <div class="uk-margin">
+                                                    <div class="uk-form-controls">
+                                                        <select class="uk-select" name="address" id="form-horizontal-select">
+                                                            <option>{{this.address}}</option>
+                                                            {{#each ../xa_kien_giang}}
+                                                            <option>{{this.path_with_type}}</option>
+                                                            {{/each}}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="uk-margin">
+                                                    <div class="uk-form-controls">
+                                                        <select class="uk-select" name="time" id="form-horizontal-select">
+                                                            <option value="{{this.time}}">Không thay đổi</option>
+                                                            <option value="MOI_LUC">Mọi lúc</option>
+                                                            <option value="MO_CA_NGAY"> Mở cả ngày </option>
+                                                            <option value="HIEN_DANG_MO">Hiện đang mở</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="uk-margin">
+                                                    <div class="uk-form-controls">
+                                                        <select class="uk-select" name="travel" id="form-horizontal-select">
+                                                            <option value="{{this.travel}}">Không thay đổi</option>
+                                                            <option value="NHA_HANG">Nhà hàng</option>
+                                                            <option value="KHACH_SAN"> Khách sản </option>
+                                                            <option value="DIEM_THAM_QUAN">Điểm thăm quan</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-margin">
+                                                    <textarea class="uk-textarea" rows="5" name="about"
+                                                        placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea">{{this.about}}</textarea>
+                                                </div>
+
+                                            <div class="uk-margin" uk-margin>
+                                                    <div uk-form-custom="target: true">
+                                                        <input id="imageInput" dirname="{{this.image}}" name="image" type="file" aria-label="Custom controls" onchange="updateImagePath()">
+                                                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Chọn ảnh" aria-label="Custom controls" disabled>
+                                                    </div>
+                                                    <p id="currentImagePath">{{this.image}}</p> <!-- Hiển thị đường dẫn ảnh hiện tại -->
+                                                </div>
+
+
+                                                <div class="uk-margin">
+                                                    <input class="uk-input" type="text" name="vido" placeholder="vi do" aria-label="Input"
+                                                        id="vido" value="{{this.index.vido}}">
+                                                </div>
+
+                                                <div class="uk-margin">
+                                                    <input class="uk-input" type="text" name="kinhdo" placeholder="kinh do" aria-label="Input"
+                                                        id="kinhdo" value="{{this.index.kinhdo}}">
+                                                </div>
+
+                                            <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
+                                            </fieldset>
+                                    </form>
+                                        <button class="uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                            type="button">Huỷ</button>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--  update -->
+                            <!-- detail -->
+                            <button class="uk-width-1-1 uk-button uk-button-default uk-margin-small-right" type="button"
+                                uk-toggle="target: #modal_nha_hang_{{this._id}}">
+                                Xem Chi Tiết
+                            </button>
+
+                        
+                        </div>
+                    </div>
+                    <div id="modal_nha_hang_{{this._id}}" style="z-index: 1000; "  uk-offcanvas="flip: true; overlay: true">
+                        <div class="uk-offcanvas-bar">
+
+                            <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+                            <h3>{{this.tennhahang}}</h3>
+                            <img style="height:210px;" src="http://localhost:3001/images/{{this.image}}" alt="">
+                            <ul uk-tab>
+                                <li><a href="#" style="padding: 0;">Tổng Quan</a></li>
+                                <li><a href="#" style="padding: 0;">Đánh Giá </a></li>
+                                <li><a href="#" style="padding: 0;"> Giới Thiệu</a></li>
+                            </ul>
+
+                            <div class="uk-switcher uk-margin">
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt
+                                    ut
+                                    labore et dolore magna aliqua.</div>
+                                <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                                    ea
+                                    commodo consequat.</div>
+                                <div>{{this.about}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--  detail -->
+                </li>
+                {{/each }}
+                {{!-- end --}}
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+{{!-- nguoi dung --}}
+
+<div class="" id="offcanvas-flip-nguoi-dung" uk-offcanvas="flip: true; overlay: true">
+    <div class=" uk-offcanvas-bar">
+        <button class=" uk-offcanvas-close" type="button" uk-close></button>
+        <div uk-filter="target: .js-filter">
+
+    <ul class="uk-subnav uk-subnav-pill ">
+        <li class="uk-active" uk-filter-control><a href="#">Tất cả</a></li>
+        <li uk-filter-control="[data-color='NGUOI_DUNG']"><a href="#"> Ngưòi dùng</a></li>
+        <li uk-filter-control="[data-color='ADMIN']"><a href="#"> Quản trị</a></li>
+    </ul>
+
+    <ul style="
+                display: block; 
+                
+                " class=" js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center uk-list uk-list-striped"
+                uk-grid="masonry: true">
+       {{#each tat_ca_nguoi_dung}}
+        <li class="" style="width: 100%;"  data-color="{{this.role}}"    >
+            <div class="" >
+                <div class=" item-info">
+                    <h1>
+                        <span class="uk-text-success">
+                            {{this.username}}
+                        </span>
+                    </h1>
+                    <h3>
+                         <span class="uk-text-success">
+                            {{this.email}}
+                        </span>
+                    </h3>
+                     <p>
+                         <span class="uk-text-success">
+                            {{this.address}}
+                        </span>
+                    </p>
+                     <!-- delete -->
+                        <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" type="button"
+                            uk-toggle="target: #modal_delete_{{this._id}}">
+                            Xoá 
+                        </button>
+
+                        <div id="modal_delete_{{this._id}}" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h2 class="uk-modal-title">Thông báo hệ thống</h2>
+                                <p>Bạn có muốn xóa nguời dùng: {{this.username}} không? Hành động này sẽ vĩnh viễn xóa dữ liệu.</p>
+                                <p class="uk-text-right">
+                                <form method="POST" action="/nguoi-dung/{{this._id}}?_method=DELETE">
+                                        <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
+                                </form>
+                                    <button class="uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                        type="button">Huỷ</button>
+                                </p>
+                            </div>
+                        </div>
+                        <!--  delete -->
+                    <!-- update -->
+                            <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" type="button"
+                                uk-toggle="target: #modal_update_{{this._id}}">
+                                Cập Nhật
+                            </button>
+
+                            <div id="modal_update_{{this._id}}" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <h2 class="uk-modal-title">Thông tin chi tiết nguời dùng!</h2>
+                                    <p class="uk-text-right">
+                                        <form method="POST" action="/nguoi-dung/{{this._id}}?_method=PUT">
+                                        <fieldset class="uk-fieldset">
+                                            
+                                                <div class="uk-margin">
+                                                    <input class="uk-input" name="username" type="text" placeholder="Nhập tên nguoi dung"
+                                                        aria-label="Input" value="{{this.username}}">
+                                                </div>
+                                                <div class="uk-margin">
+                                                    <input class="uk-input" name="email" type="text" placeholder="Nhập email nguoi dung"
+                                                        aria-label="Input" value="{{this.email}}">
+                                                </div>
+                                                <div class="uk-margin">
+                                                    <div class="uk-form-controls">
+                                                        <select class="uk-select" name="address" id="form-horizontal-select">
+                                                            <option>{{this.address}}</option>
+                                                            {{#each ../xa_kien_giang}}
+                                                            <option>{{this.path_with_type}}</option>
+                                                            {{/each}}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="uk-margin">
+                                                    <div class="uk-form-controls">
+                                                        <select class="uk-select" name="travel" id="form-horizontal-select">
+                                                            <option value="{{this.role}}">Không thay đổi</option>
+                                                            <option value="NGUOI_DUNG">Ngưòi Dùng</option>
+                                                            <option value="ADMIN"> Admin </option>
+                                                          
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
+                                            </fieldset>
+                                    </form>
+                                        <button class="uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                            type="button">Huỷ</button>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--  update -->
+                             <!-- detail -->
+                        <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" type="button"
+                            uk-toggle="target: #modal_detail_{{this._id}}">
+                           Xem Chi Tiết
+                        </button>
+
+                        <div id="modal_detail_{{this._id}}" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h2 class="uk-modal-title">Thông tin chi tiết nguời dùng!</h2>
+                              
+                                    <button class="uk-button uk-button-secondary uk-width-1-1">Ngưòi dung: {{this.username}}</button>
+                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Email: {{this.email}}</button>
+                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Mật khẩu: {{this.password}}</button>
+                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Địa chỉ: {{this.address}}</button>
+                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Vai trò: {{this.role}}</button>
+                              
+                                    <button class="uk-margin-medium-top uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                        type="button"> Thoát </button>
+                                </p>
+                            </div>
+                        </div>
+                        <!--  detail -->
+                </div>
+            </div> 
+        </li>
+      {{/each}}
+       
+    </ul>
+
+</div>
+
+    </div>
+</div>
+
+{{!-- nguoi dung --}}
+
+
+<div id="map" class="uk-height-viewport"></div>
+
+{{!-- modal --}}
+<a class="uk-button uk-button-default" href="#modal-add-index" uk-toggle hidden>Open</a>
+<div id="modal-add-index" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-body" uk-overflow-auto>
+            <form method="post" action="/nha-hang">
+                <fieldset class="uk-fieldset">
+                    <legend class="uk-legend">Thông Tin Nhà Hàng</legend>
+                    <div class="uk-margin">
+                        <input class="uk-input" name="name" type="text" placeholder="Nhập tên nhà hàng"
+                            aria-label="Input">
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-form-controls">
+                            <select class="uk-select" name="address" id="form-horizontal-select">
+                                {{#each xa_kien_giang}}
+                                <option>{{this.path_with_type}}</option>
+                                {{/each}}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-form-controls">
+                            <select class="uk-select" name="time" id="form-horizontal-select">
+                                <option value="MOI_LUC">Mọi lúc</option>
+                                <option value="MO_CA_NGAY"> Mở cả ngày </option>
+                                <option value="HIEN_DANG_MO">Hiện đang mở</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-form-controls">
+                            <select class="uk-select" name="travel" id="form-horizontal-select">
+                                <option value="NHA_HANG">Nhà hàng</option>
+                                <option value="KHACH_SAN"> Khách sản </option>
+                                <option value="DIEM_THAM_QUAN">Điểm thăm quan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea" rows="5" name="about"
+                            placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea"></textarea>
+                    </div>
+
+                    <div class="uk-margin" uk-margin>
+                        <div uk-form-custom="target: true">
+                            <input name="image" type="file" aria-label="Custom controls">
+                            <input class="uk-input uk-form-width-medium" type="text" placeholder="Chọn ảnh"
+                                aria-label="Custom controls" disabled>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" name="vido" placeholder="vi do" aria-label="Input"
+                            id="vido-view">
+                    </div>
+
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" name="kinhdo" placeholder="kinh do" aria-label="Input"
+                            id="kinhdo-view">
+                    </div>
+
+                    <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Tạo Nhà Hàng
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Huỷ</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+   (function () {
+    window.onload = function () {
+        // Tạo bản đồ
+        var options = {
+            zoom: 5,
+            center: new google.maps.LatLng(14.470, 108.1042),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Mảng để lưu trữ các điểm đánh dấu
+        var markers = [];
+
+        // Hàm tạo và thêm điểm đánh dấu
+        function addMarker(data) {
+            var position = new google.maps.LatLng(data.vido, data.kinhdo);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: data.name
+            });
+
+            // Thêm sự kiện khi click vào marker
+            marker.addListener('click', function () {
+                // Tạo cửa sổ thông tin hoặc xử lý sự kiện click
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `
+                    
+                    <a class="uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+
+                    <div id="modal-full-${data._id}" class="uk-modal-full" uk-modal>
+                        <div class="uk-modal-dialog">
+                            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+                            <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                                <div class="uk-background-cover" style="background-image: url('images/${data.image}');" uk-height-viewport></div>
+                                <div class="uk-padding-large">
+                                    <h1>${data.name}</h1> <hr>
+                                    <p>${data.about}.</p>
+                               
+                                <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" 
+                                type="button"
+                                uk-toggle="target: #modal_delete_${data._id}">
+                                    Xoá 
+                                </button>
+
+                                <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" 
+                                type="button"
+                                uk-toggle="target: #modal_update_${data._id}">
+                                    Cập Nhật
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    `
+                });
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        }
+
+        // Hàm tải và hiển thị các điểm đánh dấu từ API
+        function loadMarkersFromAPI() {
+            fetch('http://localhost:3001/json-nha-hang')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        var markerData = {
+                            _id: item._id,
+                            name: item.name,
+                            address: item.address,
+                            about: item.about,
+                            image: item.image,
+                            vido: parseFloat(item.index.vido),
+                            kinhdo: parseFloat(item.index.kinhdo)
+                        };
+
+                        // Tạo và thêm điểm đánh dấu
+                        addMarker(markerData);
+                    });
+                })
+                .catch(error => console.error('Lấy cơ sở dữ liệu thất bại:', error));
+        }
+
+        // Tải và hiển thị các điểm đánh dấu từ API khi trang tải
+        loadMarkersFromAPI();
+
+        // Mở thanh bên khi click vào bản đồ
+        google.maps.event.addListener(map, 'click', function (event) {
+            var clickedLocation = event.latLng;
+            var latitude = clickedLocation.lat();
+            var longitude = clickedLocation.lng();
+
+            document.getElementById('vido-view').value = latitude;
+            document.getElementById('kinhdo-view').value = longitude;
+
+            var modal = UIkit.modal('#modal-add-index');
+            modal.show();
+        });
+    };
+})();
+
+document.addEventListener("DOMContentLoaded", function() {
+    var ulElement = document.querySelector('ul.js-filter');
+
+    if (ulElement) {
+        ulElement.style.overflow = '';  // Xóa bỏ thuộc tính overflow
+        ulElement.style.height = '';    // Xóa bỏ thuộc tính height
+    }
+});
+
+</script>
+

@@ -1,0 +1,25 @@
+# Bỏ qua thư mục node_modules
+app/node_modules/
+
+# Bỏ qua file lock của npm
+app/package-lock.json
+
+# Bỏ qua file lock của yarn (nếu có)
+app/yarn.lock
+
+# Bỏ qua các file log
+*.log
+
+# Bỏ qua các file môi trường
+.env
+
+# Bỏ qua các file tạm của hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Bỏ qua file tạm của IDE
+.vscode/
+.idea/
+
+# Bỏ qua các file build tạm thời
+app/dist/

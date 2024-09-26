@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bản đồ </title>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <style>
+
+
+    </style>
+</head>
+
+<body>
+
+
+    <div class="uk-section-secondary uk-background-cover uk-preserve-color uk-inverse-light">
+        <div
+            uk-sticky="start: 170; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent; end: ! *; offset: 80">
+
+            <nav class="uk-navbar-container" uk-inverse="sel-active: .uk-navbar-transparent">
+                <div class="uk-container">
+                    <div
+                        uk-navbar="dropbar: true; dropbar-transparent-mode: remove; dropbar-anchor: !.uk-navbar-container; target-y: !.uk-navbar-container">
+
+                        <div class="uk-navbar-left">
+
+                            <ul class="uk-navbar-nav ">
+                                <li class="uk-active"><a href="#">Trang Chủ </a></li>
+                                <li>
+                                    <a href="#">Giới Thiệu</a>
+                                    <div class="uk-navbar-dropdown">
+                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li class="uk-active"><a href="#">Trang Chủ</a></li>
+                                            <li><a href="#">Item</a></li>
+                                            <li class="uk-nav-header">Header</li>
+                                            <li><a href="#">Item</a></li>
+                                            <li><a href="#">Item</a></li>
+                                            <li class="uk-nav-divider"></li>
+                                            <li><a href="#">Item</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">Liên Hệ</a>
+                                    <div class="uk-navbar-dropdown uk-navbar-dropdown-width-2">
+                                        <div class="uk-drop-grid uk-child-width-1-2" uk-grid>
+                                            <div>
+                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                    <li class="uk-active"><a href="#">Liên Hệ</a></li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li class="uk-nav-header">Header</li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li class="uk-nav-divider"></li>
+                                                    <li><a href="#">Item</a></li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                    <li class="uk-active"><a href="#">Active</a></li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li class="uk-nav-header">Header</li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li><a href="#">Item</a></li>
+                                                    <li class="uk-nav-divider"></li>
+                                                    <li><a href="#">Item</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="uk-navbar-right">
+                            <p uk-margin></p>
+                            <a class="uk-button uk-button-default" href="/"> Đăng Nhập</a>
+                            <a class="uk-button uk-button-default" href="register">Đăng ký</a>
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+
+
+    </div>
+
+    <div class="uk-child-width-expand@s" uk-grid>
+        <div class="uk-grid-item-match">
+            <div class=" uk-card uk-card-default uk-card-body">
+                <div class="uk-child-width-expand@s" uk-grid>
+                    <div class=" uk-grid-item-match">
+                        <div>
+                            <div class=" uk-margin">
+                                <form class=" uk-width-2xlarge uk-search uk-search-default">
+                                    <input class="uk-search-input" type="search" placeholder="Tìm kiếm nhà hàng"
+                                        aria-label="Search">
+                                    <button class="uk-search-icon-flip" uk-search-icon></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <ul uk-tab>
+                                <li><a href="#">Tổng Quan</a></li>
+                                <li><a href="#">Bài Đánh Giá</a></li>
+                                <li><a href="#">Giới Thiệu</a></li>
+                            </ul>
+
+                            <div class="uk-switcher uk-margin">
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                                <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                                <div>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-padding-small uk-padding-remove-bottom">
+            
+            <div>
+                <div id="map" class="uk-height-large uk-with-large"></div>
+            </div>
+        </div>
+    </div>
+
+<div class="uk-section uk-section-default">
+    <div class="uk-container">
+
+        <h3>Section Default</h3>
+
+        <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+            </div>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+            </div>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+    {{!-- modal --}}
+    <a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle hidden>Open</a>
+
+    <div id="modal-overflow" uk-modal>
+        <div class="uk-modal-dialog">
+
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+
+            <div class="uk-modal-body" uk-overflow-auto>
+               <form method="post" action="/map">
+                    <fieldset class="uk-fieldset">
+                        <legend class="uk-legend">Thông Tin Nhà Hàng</legend>
+
+                        <div class="uk-margin">
+                            <input class="uk-input" name="tennhahang" type="text" placeholder="Nhập tên nhà hàng" aria-label="Input">
+                        </div>
+
+                        <div class="uk-margin">
+                            <div class="uk-form-controls">
+                                <select class="uk-select" name="tinh" id="form-horizontal-select">
+                                    {{#each xa}}
+                                        <option>{{this.path_with_type}}</option>
+                                    {{/each}}
+            
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <textarea class="uk-textarea" rows="5" name="gioithieu" placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea"></textarea>
+                        </div>
+
+                        <div class="uk-margin" uk-margin>
+                            <div uk-form-custom="target: true">
+                                <input name="anh" type="file" aria-label="Custom controls">
+                                <input class="uk-input uk-form-width-medium"  type="text" placeholder="Chọn ảnh" aria-label="Custom controls" disabled>
+                            </div>
+                        </div>
+
+                          <div class="uk-margin">
+                            <input class="uk-input" type="text" name="vido" placeholder="vi do" aria-label="Input" id="vido">
+                        </div>
+
+                        <div class="uk-margin">
+                            <input class="uk-input" type="text" name="kinhdo" placeholder="kinh do" aria-label="Input" id="kinhdo">
+                        </div>
+
+                        <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Button</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            window.onload = function () {
+                // Tạo bản đồ
+                var options = {
+                    zoom: 5,
+                    center: new google.maps.LatLng(14.470, 108.1042),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                var map = new google.maps.Map(document.getElementById('map'), options);
+
+                // Mảng để lưu trữ các điểm đánh dấu
+                var markers = [];
+
+                // Lấy các phần tử HTML
+                var sidebar = document.getElementById('sidebar');
+                var closeSidebar = document.getElementById('close-sidebar');
+                var fileInput = document.getElementById('anh');
+                var existingImageUrlInput = document.getElementById('existing-image-url');
+
+                // Hàm tạo và thêm điểm đánh dấu
+                function addMarker(data) {
+                    var position = new google.maps.LatLng(data.vido, data.kinhdo);
+                    var marker = new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        title: data.tennhahang
+                    });
+
+                    // Tạo InfoWindow cho điểm đánh dấu
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div>
+                                <a class="uk-button uk-button-default" href="#modal-full" uk-toggle>Open</a>
+
+                                <div id="modal-full" class=" uk-modal-full" uk-modal>
+                                    <div class="uk-modal-dialog">
+                                        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+                                         <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                                        <div class="uk-background-cover" style="background-image: url('images/${data.anh}');" uk-height-viewport></div>
+                                        <div class="uk-padding-large">
+                                            <h1>${data.tennhahang}</h1>
+                                            <p>${data.gioithieu}.</p>
+                                            {{!-- <p uk-margin>
+                                                <form method="POST" action="/map/${data._id}?_method=DELETE">
+                                                    <button class="uk-button uk-button-primary uk-button-large">Xoá </button>
+                                                </form>
+                                                <formmethod="POST" action="/map/${data._id}?_method=PUT"> 
+                                                    <button class="uk-button uk-button-primary uk-button-large">Cập Nhật </button>
+                                                </form>
+                                            </p> --}}
+                                            <!-- This is a button toggling the modal with the default close button -->
+                                            <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Xoá</button>
+
+                                            <!-- This is the modal with the default close button -->
+                                            <div id="modal-close-default" uk-modal>
+                                                <div class="uk-modal-dialog uk-modal-body">
+                                                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                                                    <h2 class="uk-modal-title">Thông báo hệ thống!</h2>
+                                                    <p>Bạn có chắn chắt xoá bõ nhà hàng này trên bản đồ, thông tin sẽ mất vĩnh viễn..</p>
+                                                    <p class="uk-text-right">
+                                                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                                        <form method="POST" action="/map/${data._id}?_method=DELETE">
+                                                            <button class="uk-button uk-button-primary" >Xoá</button>
+                                                        </form>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- This is a button toggling the modal with the outside close button -->
+                                            <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-outside">Cập Nhật</button>
+
+                                            <!-- This is the modal with the outside close button -->
+                                            <div id="modal-close-outside" uk-modal>
+                                                <div class="uk-modal-dialog uk-modal-body">
+                                                    <button class="uk-modal-close-outside" type="button" uk-close></button>
+                                                    <h2 class="uk-modal-title">Cập Nhật</h2>
+                                                    <div class="uk-modal-body" uk-overflow-auto>
+                                                        <form method="POST" action="/map/${data._id}?_method=PUT">
+                                                                <fieldset class="uk-fieldset">
+                                                                    <legend class="uk-legend">Thông Tin Nhà Hàng</legend>
+
+                                                                    <div class="uk-margin">
+                                                                        <input class="uk-input" name="tennhahang" type="text" value="${data.tennhahang}" placeholder="Nhập tên nhà hàng" aria-label="Input">
+                                                                    </div>
+
+                                                                    <div class="uk-margin">
+                                                                        <div class="uk-form-controls">
+                                                                            <select class="uk-select" name="tinh" id="form-horizontal-select">
+                                                                                <option>Kien Giang</option>
+                                                                                <option>Ca Mau</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="uk-margin">
+                                                                        <div class="uk-form-controls">
+                                                                            <select class="uk-select" name="huyen" id="form-horizontal-select">
+                                                                                <option> Vinh Thuan </option>
+                                                                                <option> u minh thuong </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="uk-margin">
+                                                                        <div class="uk-form-controls">
+                                                                            <select class="uk-select" name="xa" id="form-horizontal-select">
+                                                                                <option> vinh binh bac </option>
+                                                                                <option> vinh binh nam </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="uk-margin">
+                                                                        <textarea class="uk-textarea" rows="5"  name="gioithieu" placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea">${data.gioithieu}</textarea>
+                                                                    </div>
+
+                                                                    <div class="uk-margin" uk-margin>
+                                                                        <div uk-form-custom="target: true">
+                                                                            <input name="anh" value="${data.anh}" type="file" aria-label="Custom controls">
+                                                                            <input class="uk-input uk-form-width-medium"   type="text" placeholder="Chọn ảnh" aria-label="Custom controls" disabled>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Cập Nhật</button>
+                                                                </fieldset>
+                                                            </form>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    });
+
+                    marker.addListener('click', function () {
+                        infoWindow.open(map, marker);
+                    });
+
+                    markers.push(marker);
+                }
+
+                // Hàm tải và hiển thị các điểm đánh dấu từ API
+                function loadMarkersFromAPI() {
+                    fetch('http://localhost:3001/map/test')
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(item => {
+                                var markerData = {
+                                    _id: item._id,
+                                    tennhahang: item.tennhahang,
+                                    diachi: item.diachi,
+                                    gioithieu: item.gioithieu,
+                                    anh: item.anh,
+                                    vido: parseFloat(item.vido),
+                                    kinhdo: parseFloat(item.kinhdo)
+                                };
+
+                                // Tạo và thêm điểm đánh dấu
+                                addMarker(markerData);
+                            });
+                        })
+                        .catch(error => console.error('lay co so du lieu that bai:', error));
+                }
+
+                // Tải và hiển thị các điểm đánh dấu từ API khi trang tải
+                loadMarkersFromAPI();
+
+                // Mở thanh bên khi click vào bản đồ
+                google.maps.event.addListener(map, 'click', function (event) {
+                    var clickedLocation = event.latLng;
+                    var latitude = clickedLocation.lat();
+                    var longitude = clickedLocation.lng();
+
+                    document.getElementById('vido').value = latitude;
+                    document.getElementById('kinhdo').value = longitude;
+
+                    var modal = UIkit.modal('#modal-overflow');
+                    modal.show();
+                });
+
+                {{!-- // Đóng thanh bên khi click "Đóng"
+                closeSidebar.onclick = function () {
+                    sidebar.classList.remove('open');
+                }; --}}
+            };
+        })();
+
+    </script>
+
+</body>
+
+</html>
