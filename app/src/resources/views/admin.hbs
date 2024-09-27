@@ -53,7 +53,9 @@
         object-fit: cover;
     }
     
-    
+    .uk-offcanvas-bar {
+        width: 500px;
+    }
 </style>
 
 <nav class="uk-navbar-container uk-padding-small " style="background-color: transparent; ">
@@ -80,7 +82,12 @@
                    <button class="uk-button uk-button-default" style="background-color: #222; color: ffffff;" type="button" uk-toggle="target: #offcanvas-flip-nguoi-dung">Ngưòi Dùng</button>
                 </div>
                 <div class="uk-margin ">
-                    <a class="uk-button uk-button-primary" href="/nguoi-dung/{{nguoi_dung._id}}">{{nguoi_dung.username}}</a>
+                    {{#if nguoi_dung}}
+                        <a class="uk-button uk-button-secondary" href="/profile">{{nguoi_dung.username}}</a>
+                        <a class="uk-button uk-button-secondary" href="/dang-nhap">Đăng Xuat</a>
+                    {{else}}
+                        <a class="uk-button uk-button-secondary" href="/dang-nhap">Đăng Nhập</a>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -167,74 +174,74 @@
                                 <div class="uk-modal-dialog uk-modal-body">
                                     <h2 class="uk-modal-title">Thông tin chi tiết nhà hàng!</h2>
                                     <p class="uk-text-right">
-                                        <form method="POST" action="/nha-hang/{{this._id}}?_method=PUT">
-                                        <fieldset class="uk-fieldset">
-                                            
-                                                <div class="uk-margin">
-                                                    <input class="uk-input" name="name" type="text" placeholder="Nhập tên nhà hàng"
-                                                        aria-label="Input" value="{{this.name}}">
-                                                </div>
-
-                                                <div class="uk-margin">
-                                                    <div class="uk-form-controls">
-                                                        <select class="uk-select" name="address" id="form-horizontal-select">
-                                                            <option>{{this.address}}</option>
-                                                            {{#each ../xa_kien_giang}}
-                                                            <option>{{this.path_with_type}}</option>
-                                                            {{/each}}
-
-                                                        </select>
+                                            <form method="POST" action="/nha-hang/{{this._id}}?_method=PUT">
+                                            <fieldset class="uk-fieldset">
+                                                
+                                                    <div class="uk-margin">
+                                                        <input class="uk-input" name="name" type="text" placeholder="Nhập tên nhà hàng"
+                                                            aria-label="Input" value="{{this.name}}">
                                                     </div>
-                                                </div>
 
-                                                <div class="uk-margin">
-                                                    <div class="uk-form-controls">
-                                                        <select class="uk-select" name="time" id="form-horizontal-select">
-                                                            <option value="{{this.time}}">Không thay đổi</option>
-                                                            <option value="MOI_LUC">Mọi lúc</option>
-                                                            <option value="MO_CA_NGAY"> Mở cả ngày </option>
-                                                            <option value="HIEN_DANG_MO">Hiện đang mở</option>
-                                                        </select>
+                                                    <div class="uk-margin">
+                                                        <div class="uk-form-controls">
+                                                            <select class="uk-select" name="address" id="form-horizontal-select">
+                                                                <option>{{this.address}}</option>
+                                                                {{#each ../xa_kien_giang}}
+                                                                <option>{{this.path_with_type}}</option>
+                                                                {{/each}}
+
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="uk-margin">
-                                                    <div class="uk-form-controls">
-                                                        <select class="uk-select" name="travel" id="form-horizontal-select">
-                                                            <option value="{{this.travel}}">Không thay đổi</option>
-                                                            <option value="NHA_HANG">Nhà hàng</option>
-                                                            <option value="KHACH_SAN"> Khách sản </option>
-                                                            <option value="DIEM_THAM_QUAN">Điểm thăm quan</option>
-                                                        </select>
+                                                    <div class="uk-margin">
+                                                        <div class="uk-form-controls">
+                                                            <select class="uk-select" name="time" id="form-horizontal-select">
+                                                                <option value="{{this.time}}">Không thay đổi</option>
+                                                                <option value="MOI_LUC">Mọi lúc</option>
+                                                                <option value="MO_CA_NGAY"> Mở cả ngày </option>
+                                                                <option value="HIEN_DANG_MO">Hiện đang mở</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="uk-margin">
-                                                    <textarea class="uk-textarea" rows="5" name="about"
-                                                        placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea">{{this.about}}</textarea>
-                                                </div>
 
-                                            <div class="uk-margin" uk-margin>
-                                                    <div uk-form-custom="target: true">
-                                                        <input id="imageInput" dirname="{{this.image}}" name="image" type="file" aria-label="Custom controls" onchange="updateImagePath()">
-                                                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Chọn ảnh" aria-label="Custom controls" disabled>
+                                                    <div class="uk-margin">
+                                                        <div class="uk-form-controls">
+                                                            <select class="uk-select" name="travel" id="form-horizontal-select">
+                                                                <option value="{{this.travel}}">Không thay đổi</option>
+                                                                <option value="NHA_HANG">Nhà hàng</option>
+                                                                <option value="KHACH_SAN"> Khách sản </option>
+                                                                <option value="DIEM_THAM_QUAN">Điểm thăm quan</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                    <p id="currentImagePath">{{this.image}}</p> <!-- Hiển thị đường dẫn ảnh hiện tại -->
-                                                </div>
+                                                    <div class="uk-margin">
+                                                        <textarea class="uk-textarea" rows="5" name="about"
+                                                            placeholder="Thông tin giới thiệu chi tiết vê nhà hàng" aria-label="Textarea">{{this.about}}</textarea>
+                                                    </div>
+
+                                                <div class="uk-margin" uk-margin>
+                                                        <div uk-form-custom="target: true">
+                                                            <input id="imageInput" dirname="{{this.image}}" name="image" type="file" aria-label="Custom controls" onchange="updateImagePath()">
+                                                            <input class="uk-input uk-form-width-medium" type="text" placeholder="Chọn ảnh" aria-label="Custom controls" disabled>
+                                                        </div>
+                                                        <p id="currentImagePath">{{this.image}}</p> <!-- Hiển thị đường dẫn ảnh hiện tại -->
+                                                    </div>
 
 
-                                                <div class="uk-margin">
-                                                    <input class="uk-input" type="text" name="vido" placeholder="vi do" aria-label="Input"
-                                                        id="vido" value="{{this.index.vido}}">
-                                                </div>
+                                                    <div class="uk-margin">
+                                                        <input class="uk-input" type="text" name="vido" placeholder="vi do" aria-label="Input"
+                                                            id="vido" value="{{this.index.vido}}">
+                                                    </div>
 
-                                                <div class="uk-margin">
-                                                    <input class="uk-input" type="text" name="kinhdo" placeholder="kinh do" aria-label="Input"
-                                                        id="kinhdo" value="{{this.index.kinhdo}}">
-                                                </div>
+                                                    <div class="uk-margin">
+                                                        <input class="uk-input" type="text" name="kinhdo" placeholder="kinh do" aria-label="Input"
+                                                            id="kinhdo" value="{{this.index.kinhdo}}">
+                                                    </div>
 
-                                            <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
-                                            </fieldset>
-                                    </form>
+                                                <button class="uk-button uk-button-secondary uk-width-1-1">Hoàn tất</button>
+                                                </fieldset>
+                                        </form>
                                         <button class="uk-button uk-button-default uk-width-1-1 uk-modal-close"
                                             type="button">Huỷ</button>
                                     </p>
@@ -242,40 +249,7 @@
                             </div>
                             <!--  update -->
                             <!-- detail -->
-                            <button class="uk-width-1-1 uk-button uk-button-default uk-margin-small-right" type="button"
-                                uk-toggle="target: #modal_nha_hang_{{this._id}}">
-                                Xem Chi Tiết
-                            </button>
-
-                        
-                        </div>
-                    </div>
-                    <div id="modal_nha_hang_{{this._id}}" style="z-index: 1000; "  uk-offcanvas="flip: true; overlay: true">
-                        <div class="uk-offcanvas-bar">
-
-                            <button class="uk-offcanvas-close" type="button" uk-close></button>
-
-                            <h3>{{this.tennhahang}}</h3>
-                            <img style="height:210px;" src="http://localhost:3001/images/{{this.image}}" alt="">
-                            <ul uk-tab>
-                                <li><a href="#" style="padding: 0;">Tổng Quan</a></li>
-                                <li><a href="#" style="padding: 0;">Đánh Giá </a></li>
-                                <li><a href="#" style="padding: 0;"> Giới Thiệu</a></li>
-                            </ul>
-
-                            <div class="uk-switcher uk-margin">
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt
-                                    ut
-                                    labore et dolore magna aliqua.</div>
-                                <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                                    ea
-                                    commodo consequat.</div>
-                                <div>{{this.about}}</div>
-                            </div>
-
-                        </div>
-                    </div>
+                            <a class="uk-width-1-1 uk-button uk-button-default uk-margin-small-bottom" href="/nha-hang/{{this._id}}">  Xem Chi Tiết </a>
                     <!--  detail -->
                 </li>
                 {{/each }}
@@ -397,26 +371,27 @@
                             </div>
                             <!--  update -->
                              <!-- detail -->
-                        <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" type="button"
-                            uk-toggle="target: #modal_detail_{{this._id}}">
-                           Xem Chi Tiết
-                        </button>
+                           
+                            <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" type="button"
+                                uk-toggle="target: #modal_detail_{{this._id}}">
+                            Xem Chi Tiết
+                            </button>
 
-                        <div id="modal_detail_{{this._id}}" uk-modal>
-                            <div class="uk-modal-dialog uk-modal-body">
-                                <h2 class="uk-modal-title">Thông tin chi tiết nguời dùng!</h2>
-                              
-                                    <button class="uk-button uk-button-secondary uk-width-1-1">Ngưòi dung: {{this.username}}</button>
-                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Email: {{this.email}}</button>
-                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Mật khẩu: {{this.password}}</button>
-                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Địa chỉ: {{this.address}}</button>
-                                    <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Vai trò: {{this.role}}</button>
-                              
-                                    <button class="uk-margin-medium-top uk-button uk-button-default uk-width-1-1 uk-modal-close"
-                                        type="button"> Thoát </button>
-                                </p>
+                            <div id="modal_detail_{{this._id}}" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <h2 class="uk-modal-title">Thông tin chi tiết nguời dùng!</h2>
+                                
+                                        <button class="uk-button uk-button-secondary uk-width-1-1">Ngưòi dung: {{this.username}}</button>
+                                        <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Email: {{this.email}}</button>
+                                        <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Mật khẩu: {{this.password}}</button>
+                                        <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Địa chỉ: {{this.address}}</button>
+                                        <button class="uk-margin-small-top uk-button uk-button-secondary uk-width-1-1">Vai trò: {{this.role}}</button>
+                                
+                                        <button class="uk-margin-medium-top uk-button uk-button-default uk-width-1-1 uk-modal-close"
+                                            type="button"> Thoát </button>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
                         <!--  detail -->
                 </div>
             </div> 
@@ -431,7 +406,6 @@
 </div>
 
 {{!-- nguoi dung --}}
-
 
 <div id="map" class="uk-height-viewport"></div>
 
@@ -543,29 +517,53 @@
                 // Tạo cửa sổ thông tin hoặc xử lý sự kiện click
                 var infoWindow = new google.maps.InfoWindow({
                     content: `
-                    
-                    <a class="uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+                   <div>
+                        <img style="
+                        height: 100px;
+                        " src="images/${data.image}" alt="">
+                        <h3 class="uk-text-success"> ${data.name} </h3>
 
+                   </div>
+
+                    <a class="uk-width-1-1 uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
                     <div id="modal-full-${data._id}" class="uk-modal-full" uk-modal>
                         <div class="uk-modal-dialog">
                             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
                             <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
                                 <div class="uk-background-cover" style="background-image: url('images/${data.image}');" uk-height-viewport></div>
                                 <div class="uk-padding-large">
-                                    <h1>${data.name}</h1> <hr>
-                                    <p>${data.about}.</p>
-                               
-                                <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" 
-                                type="button"
-                                uk-toggle="target: #modal_delete_${data._id}">
-                                    Xoá 
-                                </button>
+                                    <ul class="uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+                                        <li><a href="#">Tổng Quan</a></li>
+                                        <li><a href="#">Đánh Giá</a></li>
+                                        <li><a href="#">Giới Thiệu</a></li>
+                                    </ul>
 
-                                <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" 
-                                type="button"
-                                uk-toggle="target: #modal_update_${data._id}">
-                                    Cập Nhật
-                                </button>
+                                    <div class="uk-switcher uk-margin">
+                                        <div>
+                                            <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m">
+                                            <h3 class="uk-card-title">${data.name}</h3>
+                                            <ul class=" uk-list uk-list-striped">
+                                                <li>List item 1</li>
+                                                <li>List item 2</li>
+                                                <li>List item 3</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                        <div>Hello again!</div>
+                                        <div>Bazinga!</div>
+                                    </div>
+                               
+                                    <button class="uk-width-1-1 uk-button uk-button-danger uk-margin-small-bottom" 
+                                    type="button"
+                                    uk-toggle="target: #modal_delete_${data._id}">
+                                        Xoá 
+                                    </button>
+
+                                    <button class="uk-width-1-1 uk-button uk-button-primary uk-margin-small-bottom" 
+                                    type="button"
+                                    uk-toggle="target: #modal_update_${data._id}">
+                                        Cập Nhật
+                                    </button>
                                 </div>
                             </div>
                         </div>

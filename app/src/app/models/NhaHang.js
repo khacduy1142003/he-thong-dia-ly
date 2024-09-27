@@ -13,6 +13,21 @@ const NhaHang = new Schema({
     time: String,
     about: String,
     travel: String,
+    orders: [
+        {
+            orders_name: String,
+            price: Number,
+            status: String,
+        }
+    ],
+    content: [
+        {
+            email: String,
+            username: String,
+            start: Number,
+            comment: String,
+        },
+    ]
 });
 
 module.exports = mongoose.model("nhahang", NhaHang);

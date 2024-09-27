@@ -76,7 +76,7 @@
                    <button class="uk-button uk-button-default" style="background-color: #222; color: ffffff;" type="button" >Điểm thăm quan</button>
                 </div>
                 <div class="uk-margin ">
-                    <a class="uk-button uk-button-primary" href="/nguoi-dung/{{nguoi_dung._id}}">{{nguoi_dung.username}}</a>
+                    <a class="uk-button uk-button-primary" href="/dang-nhap">Đăng Xuất</a>
                 </div>
             </div>
         </div>
@@ -205,8 +205,15 @@
                 // Tạo cửa sổ thông tin hoặc xử lý sự kiện click
                 var infoWindow = new google.maps.InfoWindow({
                     content: `
-                    
-                    <a class="uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+                     <div>
+                        <img style="
+                        height: 100px;
+                        " src="images/${data.image}" alt="">
+                        <h3 class="uk-text-success"> ${data.name} </h3>
+
+                   </div>
+                                      <a class="uk-width-1-1 uk-button uk-button-default" href="#modal-full-${data._id}" uk-toggle>Xem Chi Tiết</a>
+
 
                     <div id="modal-full-${data._id}" class="uk-modal-full" uk-modal>
                         <div class="uk-modal-dialog">
@@ -219,6 +226,7 @@
                                
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
 

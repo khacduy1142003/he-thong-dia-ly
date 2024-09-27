@@ -1,5 +1,6 @@
 const NhaHang = require("../../models/NhaHang");
 const NguoiDung = require("../../models/Account");
+const Order = require("../../models/Order");
 
 const diacritics = require("diacritics");
 
@@ -111,6 +112,26 @@ class PostController {
     } else {
       res.redirect("/");
     }
+  }
+
+  // Orders
+  orders(req, res, next) {
+    Order.create({
+      email: req.body.email,
+      name: req.body.name,
+      username: req.body.username,
+      status: req.body.status,
+      total: req.body.total,
+      ngay_dat:req.body.date,
+      ngay_giao_hang: req.body.ngay_giao_hang,
+      address_user:req.body.address_user,
+      address_index: req.body.address_index,
+      ghi_chu: req.body.ghi_chu,
+    })
+    .then (data => {
+      console.log(data);
+    })
+    .catch(next);
   }
 }
 

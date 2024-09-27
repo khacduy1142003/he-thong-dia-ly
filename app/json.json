@@ -9,6 +9,14 @@ nha hang
     },
     "address": String,
     "time": String,
+    "content": [
+        {
+            email: String,
+            name: String,
+            start: Number,
+            comment: String,
+        },
+    ]
 }
 
 nguoi dung
@@ -19,3 +27,17 @@ nguoi dung
     "role": String,
 }
 
+dat hang
+{
+    email: user.email,
+    name: nha_hang.name,
+    name: String,
+    status: String,
+    tong_tien: Number,
+    ngay_dat: Date,
+    ngay_giao_hang: Date,
+    address_user: String,
+    address_index: String,
+    ghi_chu: String,
+
+}
