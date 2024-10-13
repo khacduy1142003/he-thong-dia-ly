@@ -3,31 +3,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const NhaHang = new Schema({
-    name: String,
-    image: String,
+    ten_nha_hang: String,
     index: {
         vido: String,
         kinhdo: String,
     },
+    avatar: String,
+    email: String,
     address: String,
-    time: String,
-    about: String,
-    travel: String,
-    orders: [
-        {
-            orders_name: String,
-            price: Number,
-            status: String,
-        }
-    ],
-    content: [
-        {
-            email: String,
-            username: String,
-            start: Number,
-            comment: String,
-        },
-    ]
 });
 
 module.exports = mongoose.model("nhahang", NhaHang);

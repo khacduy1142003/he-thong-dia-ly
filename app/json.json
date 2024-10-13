@@ -1,3 +1,16 @@
+nguoi dung 
+{
+    fullname: String,
+    username: String,
+    email: String,
+    password: String,
+    address: String,
+    role: String,
+    image: String,
+    phone: String,
+    status: String,
+}
+
 nha hang 
 {
     "name": String,
@@ -7,24 +20,35 @@ nha hang
         "vi_do": String,
         "kinh_do": String
     },
-    "address": String,
-    "time": String,
-    "content": [
-        {
-            email: String,
-            name: String,
-            start: Number,
-            comment: String,
-        },
-    ]
+    "address": String, 
 }
 
-nguoi dung
+chi tiet nha hang 
 {
-    "name": String,
-    "email": String,
-    "password": String,
-    "role": String,
+    id_nha_hang: nha_hang._id,
+    phone: Number,
+    time: Number,
+    menu: [
+        {
+            ten_mon_an: String,
+            price: Number,
+            countr: Number,
+        }
+    ],
+    about: String,
+}
+
+dat hang nha hang
+{
+    id_nha_hang: nha_hang._id,
+    ten_mon_an: String,
+    price: Number,
+    count: Number,
+    ghi_chu: String,
+    time: Date,
+    address: String,
+    ten_nguoi_dat: user.email,
+    
 }
 
 dat hang

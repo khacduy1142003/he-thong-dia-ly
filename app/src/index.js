@@ -17,7 +17,20 @@ Handlebars.registerHelper('inc', function (value, options) {
     return parseInt(value) + 1;
 });
 
+// Đăng ký helper để đếm số lượng phần tử
+Handlebars.registerHelper('totalCourses', function (context) {
+    return context.length;
+});
 
+// đảo ngược
+Handlebars.registerHelper('reverse', function (items) {
+    return items.slice().reverse();
+});
+
+
+Handlebars.registerHelper('eq', function(a, b) {
+    return a === b;
+});
 
 const route = require('./routes');
 const db = require('./config/db');

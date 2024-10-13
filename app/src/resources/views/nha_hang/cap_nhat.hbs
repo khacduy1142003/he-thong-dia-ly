@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8" />
+    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../vendors/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../vendors/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../../vendors/images/favicon-16x16.png" />
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../vendors/styles/core.css" />
+    <link rel="stylesheet" type="text/css" href="../../vendors/styles/icon-font.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../vendors/styles/style.css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
+        crossorigin="anonymous"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-GBZ3SGGX85");
+    </script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != "dataLayer" ? "&l=" + l : "";
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, "script", "dataLayer", "GTM-NXZMQSS");
+    </script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="menu-icon">
+                <img src="images/core/menu.png" alt="">
+            </div>
+            <div class="search-toggle-icon bi bi-search" data-toggle="header_search"></div>
+            <div class="header-search">
+                <form>
+                    <div class="form-group mb-0">
+                        <i class="dw dw-search2 search-icon"></i>
+                        <input type="text" class="form-control search-input" placeholder="Search Here" />
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-right" >
+            <div class="dashboard-setting user-notification">
+                <div class="dropdown">
+                    <a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
+                        <i class="dw dw-settings2"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="user-notification">
+                <div class="dropdown">
+                    <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+                        <i class="icon-copy dw dw-notification"></i>
+                        <span class="badge notification-active"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="notification-list mx-h-350 customscroll">
+                            <ul>
+                                {{#each (reverse message)}}
+                                <li>
+                                    <a href="#">
+                                        <img src="images/avatar/{{this.image}}" alt="" />
+                                        <h3>{{this.title}}</h3>
+                                        <p>{{this.content}}</p>
+                                    </a>
+                                </li>
+                                {{else}}
+                                <div class="w-100 text-center alert alert-info">Hiện chưa có thông báo nào!</div>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-info-dropdown">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                        <span class="user-icon">
+                            <img src="/images/avatar/{{nguoi_dung.avatar}}" alt="" />
+                        </span>
+                        <span class="user-name">{{nguoi_dung.fullname}}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                        <a class="dropdown-item" href="/ho-so"><i class="dw dw-user1"></i> Hồ Sơ </a>
+                        <a class="dropdown-item" href="/cai-dat"><i class="dw dw-settings2"></i> Cài Đặt</a>
+                        <a class="dropdown-item" href="/tro-giup"><i class="dw dw-help"></i> Trợ Giúp</a>
+                        <a class="dropdown-item" href="/"><i class="dw dw-logout"></i> Đăng Xuất</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="right-sidebar">
+        <div class="sidebar-title">
+            <h3 class="weight-600 font-16 text-blue">
+                Cài đặt bố cục
+                <span class="btn-block font-weight-400 font-12">Cài đặt giao diện người dùng</span>
+            </h3>
+            <div class="close-sidebar" data-toggle="right-sidebar-close">
+                <i class="icon-copy ion-close-round"></i>
+            </div>
+        </div>
+        <div class="right-sidebar-body customscroll">
+            <div class="right-sidebar-body-content">
+                <h4 class="weight-600 font-18 pb-10">Nền tiêu đề</h4>
+                <div class="sidebar-btn-group pb-30 mb-10">
+                    <a href="javascript:void(0);" class="btn btn-outline-primary header-white active">Trắng</a>
+                    <a href="javascript:void(0);" class="btn btn-outline-primary header-dark">Đen</a>
+                </div>
+
+                <h4 class="weight-600 font-18 pb-10">Nền thanh bên</h4>
+                <div class="sidebar-btn-group pb-30 mb-10">
+                    <a href="javascript:void(0);" class="btn btn-outline-primary sidebar-light active">Trắng</a>
+                    <a href="javascript:void(0);" class="btn btn-outline-primary sidebar-dark ">Đen</a>
+                </div>
+
+                <h4 class="weight-600 font-18 pb-10">Biểu tượng thả xuống Menu</h4>
+                <div class="sidebar-radio-group pb-10 mb-10">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebaricon-1" name="menu-dropdown-icon" class="custom-control-input"
+                            value="icon-style-1" checked="" />
+                        <label class="custom-control-label" for="sidebaricon-1"><i class="fa fa-angle-down"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebaricon-2" name="menu-dropdown-icon" class="custom-control-input"
+                            value="icon-style-2" />
+                        <label class="custom-control-label" for="sidebaricon-2"><i class="ion-plus-round"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebaricon-3" name="menu-dropdown-icon" class="custom-control-input"
+                            value="icon-style-3" />
+                        <label class="custom-control-label" for="sidebaricon-3"><i
+                                class="fa fa-angle-double-right"></i></label>
+                    </div>
+                </div>
+
+                <h4 class="weight-600 font-18 pb-10">Biểu tượng danh sách menu</h4>
+                <div class="sidebar-radio-group pb-30 mb-10">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-1" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-1" checked="" />
+                        <label class="custom-control-label" for="sidebariconlist-1"><i
+                                class="ion-minus-round"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-2" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-2" />
+                        <label class="custom-control-label" for="sidebariconlist-2"><i class="fa fa-circle-o"
+                                aria-hidden="true"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-3" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-3" />
+                        <label class="custom-control-label" for="sidebariconlist-3"><i class="dw dw-check"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-4" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-4" checked="" />
+                        <label class="custom-control-label" for="sidebariconlist-4"><i
+                                class="icon-copy dw dw-next-2"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-5" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-5" />
+                        <label class="custom-control-label" for="sidebariconlist-5"><i
+                                class="dw dw-fast-forward-1"></i></label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="sidebariconlist-6" name="menu-list-icon" class="custom-control-input"
+                            value="icon-list-style-6" />
+                        <label class="custom-control-label" for="sidebariconlist-6"><i class="dw dw-next"></i></label>
+                    </div>
+                </div>
+
+                <div class="reset-options pt-30 text-center">
+                    <button class="btn btn-danger" id="reset-settings">
+                        Mặc Định
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-side-bar">
+        <div style="height: 170px;" class="brand-logo">
+            <a href="/admin">
+                <img src="/images/logo-haloween.png" alt="" class="dark-logo" />
+                <img src="/images/logo-haloween.png" alt="" class="light-logo" />
+            </a>
+            <div class="close-sidebar" data-toggle="left-sidebar-close">
+                <i class="ion-close-round"></i>
+            </div>
+        </div>
+        <div class="menu-block customscroll">
+            <div class="sidebar-menu " >
+                <ul id="accordion-menu" class="">
+                    <li class="dropdown">
+                        <a href="/admin" class="dropdown-toggle ">
+                             <span class="micon">
+                                <img  src="/images/core/1.png" alt="" />
+                            </span>
+                            <span class="text-yellow">Trang Chủ</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon">
+                                <img  src="/images/core/2.png" alt="" />
+                            </span>
+                            <span class="text-yellow">Người Dùng</span>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a  href="/khach-hang">Khách Hàng</a>
+                            </li>
+                            <li>
+                                <a  class="text-yellow" href="/quan-li-nha-hang">Quản lý Nhà hàng</a>
+                            </li>
+                            <li><a  class="text-yellow" href="/quan-tri-vien">Quản Trị Viên</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                           <span class="micon">
+                                <img  src="/images/core/3.png" alt="" />
+                            </span>
+                            <span class="text-yellow">Nhà Hàng</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/nha-hang">Danh Sách</a></li>
+                            <li><a href="/thuc-don"> Thực Đơn </a></li>
+                            <li><a href="/don-hang"> Đơn Hàng </a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon">
+                                <img  src="/images/core/4.png" alt="" />
+                            </span>
+                            <span class="text-yellow">Khách Sản</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/khach-san">Danh Sách</a></li>
+                            <li><a href="/khach-san/them">Thêm </a></li>
+                            <li><a href="/khach-san/cap-nhat">Cập Nhật </a></li>
+                            <li><a href="/khach-san/xoa">Xoá</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon">
+                                <img  src="/images/core/5.png" alt="" />
+                            </span>
+                            <span class="text-yellow">Điểm Thăm Quan</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/danh-sach-diem-tham-quan">Danh Sách</a></li>
+                            <li><a href="/them-diem-tham-quan">Thêm </a></li>
+                            <li><a href="/cap-nhap-diem-tham-quan">Cập Nhật </a></li>
+                            <li><a href="/xoa-diem-tham-quan">Xoá</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <div class=" text-orange">Quản Lý Khác</div>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon icon-copy fa fa-user-secret"></span><span class="text-yellow">Người Dùng</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/thay-doi-vai-tro">Thay Đổi Vai Trò</a></li>
+                            <li><a href="/khoi-phuc-mat-khau">Khôi phục mật khẩu</a></li>
+                            <li>
+                                <a href="/khoa-tai-khoan">Khoá Tài Khoản</a>
+                            </li>
+                            <li>
+                                <a href="/mo-khoa-tai-khoan">Mở Khoá tài Khoản</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon bi bi-layout-text-window-reverse"></span>
+                            <span class="text-yellow">
+                                Thông Báo
+                            </span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/gop-y">Góp ý</a></li>
+                            <li><a href="/bao-cao">Báo Cáo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-menu-overlay"></div>
+
+    <div class="main-container">
+        <div class="pd-ltr-20 xs-pd-20-10">
+            <div class="min-height-200px">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="title">
+                                <h4>Nhà Hàng</h4>
+                            </div>
+                            <nav aria-label="breadcrumb" role="navigation">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="index.html">Trang Chủ</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Cập nhật nhà hàng
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-md-6 col-sm-12 text-right">
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                    data-toggle="dropdown">
+                                    January 2018
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Export List</a>
+                                    <a class="dropdown-item" href="#">Policies</a>
+                                    <a class="dropdown-item" href="#">View Assets</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pd-20 card-box mb-30">
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label>Tên nhà hàng*</label>
+                                    <input name="ten_nha_hang" value="{{nha_hang.ten_nha_hang}}" type="text"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label>Email*</label>
+                                    <input name="email" value="{{nha_hang.email}}" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <!-- Hiển thị hình ảnh hiện tại -->
+                                    <div>
+                                        <img src="../../images/{{nha_hang.avatar}}" alt="Current Image"
+                                            style="width: 100px; height: 100px;" />
+                                    </div>
+                                    <!-- Input file để chọn ảnh mới -->
+                                    <input name="avatar" type="file" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>Địa chỉ*</label>
+                                    <select name="address" class="custom-select form-control">
+                                       <option>-- {{nha_hang.address}} --</option>
+                                        {{#each xa_kien_giang}}
+                                        <option>{{this.path_with_type}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="form-group">
+                                    <label>Vĩ độ*</label>
+                                    <input name="vido" value="{{nha_hang.index.vido}}" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="form-group">
+                                    <label>Kinh độ*</label>
+                                    <input name="kinhdo" value="{{nha_hang.index.kinhdo}}" type="text"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-12</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <label>col-md-2</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group has-success">
+                                    <label class="form-control-label">Input with success</label>
+                                    <input type="text" class="form-control form-control-success">
+                                    <div class="form-control-feedback">Success! You've done it.</div>
+                                    <small class="form-text text-muted">Example help text that remains
+                                        unchanged.</small>
+                                </div>
+                                <div class="form-group has-warning">
+                                    <label class="form-control-label">Input with warning</label>
+                                    <input type="text" class="form-control form-control-warning">
+                                    <div class="form-control-feedback">Shucks, check the formatting of that and try
+                                        again.</div>
+                                    <small class="form-text text-muted">Example help text that remains
+                                        unchanged.</small>
+                                </div>
+                                <div class="form-group has-danger">
+                                    <label class="form-control-label">Input with danger</label>
+                                    <input type="text" class="form-control form-control-danger">
+                                    <div class="form-control-feedback">Sorry, that username's taken. Try another?</div>
+                                    <small class="form-text text-muted">Example help text that remains
+                                        unchanged.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- js -->
+        <script src="../../vendors/scripts/core.js"></script>
+        <script src="../../vendors/scripts/script.min.js"></script>
+        <script src="../../vendors/scripts/process.js"></script>
+        <script src="../../vendors/scripts/layout-settings.js"></script>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0"
+                style="display: none; visibility: hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+</body>
+
+</html>

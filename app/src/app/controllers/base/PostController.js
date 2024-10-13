@@ -1,29 +1,26 @@
-const NhaHang = require("../../models/NhaHang");
+const NhaHang = require("../../models/Nha_Hang/Nha_Cung_Cap");
 const NguoiDung = require("../../models/Account");
-const Order = require("../../models/Order");
+const MonAn = require("../../models/Nha_Hang/Mon_An");
+const DonDatHang = require("../../models/Nha_Hang/Don_Dat_Hang");
+const Message = require("../../models/message");
 
 const diacritics = require("diacritics");
+
+const ngayDatHang = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+const ngayThangNam = new Date().toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+const gioPhutGiay = new Date().toLocaleTimeString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
 
 const {
   multipleMongooseToObject,
   mongooseToObject,
 } = require("../../../util/mongoose");
+const Nha_Cung_Cap = require("../../models/Nha_Hang/Nha_Cung_Cap");
+const Account = require("../../models/Account");
 
 class PostController {
   // nha hang
   nha_hang(req, res, next) {
-    NhaHang.create({
-      name: req.body.name,
-      image: req.body.image,
-      index: {
-        vido: req.body.vido,
-        kinhdo: req.body.kinhdo,
-      },
-      address: req.body.address,
-      time: req.body.time,
-      about: req.body.about,
-      travel: req.body.travel,
-    })
+    NhaHang.create(req.body)
       .then(() => {
         // console.log(req.body);
         res.redirect("back");
@@ -39,11 +36,64 @@ class PostController {
       password: req.body.password,
       address: req.body.address,
       role: req.body.role,
+      phone: req.body.phone,
+      avatar: req.body.avatar,
+      fullname: req.body.fullname,
+      status: req.body.status,
+    }),
+    Message.create({
+      image: req.body.avatar,
+      content: `Người dùng ${req.body.username} đã tạo tài khoản lúc ${gioPhutGiay}`,
+      title: req.body.username,
+      time: ngayThangNam,
     })
       .then(() => {
         res.redirect("back");
       })
       .catch(next);
+  }
+
+  // Món ăn
+  mon_an(req, res, next) {
+    MonAn.create(req.body)
+     .then(() => {
+        res.redirect("back");
+      })
+     .catch(next);
+  }
+
+  // Đơn Đặt Hàng
+  don_dat_hang(req, res, next) {
+    NguoiDung.findOne({email: req.cookies.email})
+    .then(data => {
+      NhaHang.findById(req.params._id)
+      .then(nha_hang => {
+        DonDatHang.create({
+          id_khach_hang: data._id,
+          id_nha_hang: req.params._id,
+          id_mon_an: req.body.id_mon_an,
+          ten_khach_hang: data.username,
+          mon_an: req.body.mon_an,
+          ten_nha_hang: nha_hang.ten,
+          anh: req.body.anh,
+          gia: req.body.gia,
+          trang_thai: req.body.trang_thai,
+          ngay_dat_hang:ngayDatHang,
+        }),
+        Message.create({
+          image: data.avatar,
+          content: `${data.username} đã đặt món ${req.body.mon_an} tại nhà hàng ${nha_hang.ten} vào ${gioPhutGiay}`,
+          title: data.username,
+          time: ngayThangNam,
+        })
+       .then((_) => {
+        res.redirect("back");
+       })
+       .catch(next);
+      })
+      .catch(next);
+    })
+    .catch(next);
   }
 
   //  đăng nhập
@@ -53,13 +103,10 @@ class PostController {
     NguoiDung.findOne({ email: email })
       .then((account) => {
         if (!account) {
-          // Nếu không tìm thấy tài khoản với email đó
-          return res.redirect("/dang-nhap");
+          return res.redirect("/");
         }
 
-        // Kiểm tra mật khẩu (nếu bạn sử dụng mã hóa bcrypt, dùng bcrypt.compare)
         if (account.password === password) {
-          // Xóa tất cả cookie cũ
           for (let cookie in req.cookies) {
             res.clearCookie(cookie);
           }
@@ -72,31 +119,61 @@ class PostController {
           if (account.role === "ADMIN") {
             return res.redirect("/admin");
           } else {
-            return res.redirect("/");
+            return res.redirect("/admin");
           }
         } else {
-          return res.redirect("/dang-nhap");
+          return res.redirect("/admin");
         }
       })
       .catch((error) => {
         console.error("Error during login:", error);
-        next(error); // Xử lý lỗi
+        next(error); 
       });
   }
 
   // dang ky
   dang_ky(req, res, next) {
-    NguoiDung.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      address: req.body.address,
-      role: "ngưòi dùng",
-    })
-      .then(() => {
-        res.redirect("dang-nhap");
+    if (req.body.role ==="Khách Hàng") {
+      NguoiDung.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        address: req.body.address,
+        role: req.body.role,
+        phone: req.body.phone,
+        avatar: "user.png",
+        fullname: req.body.fullname,
+        status: 1,
       })
-      .catch(next);
+        .then(() => {
+          // console.log(req.body);
+          res.redirect("/dang-nhap");
+        })
+        .catch(next);
+    } else {
+      NguoiDung.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        address: req.body.address,
+        role: req.body.role,
+        phone: req.body.phone,
+        avatar: "user.png",
+        fullname: req.body.fullname,
+        status: 0,
+      }),
+      Message.create({
+        image: req.body.avatar,
+        content: `Người dùng ${req.body.username} đã tạo tài khoản thành công lúc ${gioPhutGiay}`,
+        title: req.body.username,
+        time: ngayThangNam,
+      })
+        .then(() => {
+          // console.log(req.body);
+          res.redirect("/dang-nhap");
+        })
+        .catch(next);
+    }
   }
 
   // index
@@ -116,22 +193,7 @@ class PostController {
 
   // Orders
   orders(req, res, next) {
-    Order.create({
-      email: req.body.email,
-      name: req.body.name,
-      username: req.body.username,
-      status: req.body.status,
-      total: req.body.total,
-      ngay_dat:req.body.date,
-      ngay_giao_hang: req.body.ngay_giao_hang,
-      address_user:req.body.address_user,
-      address_index: req.body.address_index,
-      ghi_chu: req.body.ghi_chu,
-    })
-    .then (data => {
-      console.log(data);
-    })
-    .catch(next);
+    
   }
 }
 
